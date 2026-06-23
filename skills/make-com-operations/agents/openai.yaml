@@ -1,0 +1,4 @@
+interface:
+  display_name: "Make.com Operations"
+  short_description: "Design and govern Make scenarios safely"
+  default_prompt: "Use $make-com-operations to design this Make scenario safely."

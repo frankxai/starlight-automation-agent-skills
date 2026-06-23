@@ -1,0 +1,23 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate skill bundle
+        run: python scripts/validate_skill_bundle.py .
+      - name: Scan public safety markers
+        run: python scripts/scan_public_safety.py .
+      - name: Validate example MCP config
+        run: python scripts/validate_mcp_config.py examples/mcp/minimal.mcp.json
+      - name: Validate example n8n workflow
+        run: python scripts/validate_n8n_workflow.py examples/n8n/minimal-workflow.json
+

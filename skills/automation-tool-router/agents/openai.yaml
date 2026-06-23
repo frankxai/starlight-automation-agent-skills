@@ -1,0 +1,4 @@
+interface:
+  display_name: "Automation Tool Router"
+  short_description: "Choose the right automation tool for agent work"
+  default_prompt: "Use $automation-tool-router to choose the right tool for this workflow."

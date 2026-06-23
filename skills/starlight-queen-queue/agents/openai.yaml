@@ -1,0 +1,4 @@
+interface:
+  display_name: "Starlight Queen Queue"
+  short_description: "Route bounded work through Starlight swarm lanes"
+  default_prompt: "Use $starlight-queen-queue to define a bounded queue job."

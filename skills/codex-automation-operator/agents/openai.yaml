@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Automation Operator"
+  short_description: "Create recurring Codex work with clear gates"
+  default_prompt: "Use $codex-automation-operator to schedule this recurring Codex task."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCP Governance"
+  short_description: "Design safe MCP tools, servers, and scopes"
+  default_prompt: "Use $mcp-governance to design a safe MCP tool boundary."

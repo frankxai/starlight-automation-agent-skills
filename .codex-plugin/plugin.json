@@ -1,0 +1,38 @@
+{
+  "name": "starlight-automation-agent-skills",
+  "version": "0.1.0",
+  "description": "Codex skills for choosing and governing Make.com, n8n, MCP, Codex automations, and Starlight swarm workflows.",
+  "author": {
+    "name": "FrankX / Starlight"
+  },
+  "homepage": "https://github.com/frankxai/starlight-automation-agent-skills",
+  "repository": "https://github.com/frankxai/starlight-automation-agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "automation",
+    "agents",
+    "mcp",
+    "n8n",
+    "make",
+    "codex",
+    "starlight"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Starlight Automation Agent Skills",
+    "shortDescription": "Route automations across Make, n8n, MCP, and Codex.",
+    "longDescription": "A public-safe skill bundle that teaches agents when to use SaaS connectors, Codex automations, MCP tools, Make scenarios, n8n workflows, and Starlight swarm queues.",
+    "developerName": "FrankX / Starlight",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Choose the best automation tool for this workflow.",
+      "Design a safe MCP boundary for this agent task.",
+      "Turn this recurring task into a Codex automation."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
