@@ -12,6 +12,11 @@ Recommended installed skills:
 - `codex-automation-operator`
 - `starlight-queen-queue`
 
+After installation, use the guide:
+
+- `docs/automation-operating-guide.md` for human and agent operating doctrine.
+- `templates/automation-decision-record.md` before adding a durable automation.
+
 Validate before installation:
 
 ```powershell
@@ -24,4 +29,3 @@ If using the repo as a plugin, validate the plugin manifest too:
 ```powershell
 python path/to/plugin-creator/scripts/validate_plugin.py .
 ```
-

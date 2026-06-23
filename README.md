@@ -17,6 +17,13 @@ be shared publicly.
 - `codex-automation-operator` - recurring Codex task design and review gates.
 - `starlight-queen-queue` - bounded Starlight swarm queue jobs and handoffs.
 
+## Operating Guide
+
+- [Automation Operating Guide](docs/automation-operating-guide.md)
+- [Automation Tool Doctrine](docs/automation-tool-doctrine.md)
+- [Workflow Catalog](docs/workflow-catalog.md)
+- [Automation Decision Record template](templates/automation-decision-record.md)
+
 ## Core Rule
 
 Use the narrowest reliable tool:
@@ -57,4 +64,3 @@ python scripts/validate_n8n_workflow.py examples/n8n/minimal-workflow.json
 ```
 
 Restart Codex after installing or updating skills.
-
