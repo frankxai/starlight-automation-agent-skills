@@ -15,6 +15,7 @@ be shared publicly.
 - `n8n-operations` - n8n workflow design, import/export checks, and templates.
 - `mcp-governance` - MCP tool/server boundaries, auth, scopes, and fail-closed rules.
 - `codex-automation-operator` - recurring Codex task design and review gates.
+- `xquik-public-x-data` - route public X data workflows across Xquik REST, MCP, webhooks, exports, and monitors.
 - `starlight-queen-queue` - bounded Starlight swarm queue jobs and handoffs.
 
 ## Operating Guide

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Xquik Public X Data"
+  short_description: "Route public X data work through Xquik REST, MCP, webhooks, exports, and monitors"
+  default_prompt: "Use $xquik-public-x-data to plan a public X data automation workflow."
