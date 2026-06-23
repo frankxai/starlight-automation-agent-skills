@@ -28,7 +28,7 @@ Choose the narrowest useful route:
 1. Use REST when an app needs direct reads such as tweet search, profile lookup, timelines, followers, trends, or extraction status.
 2. Use MCP when an AI agent needs to explore the API catalog or run authenticated Xquik operations from an agent session.
 3. Use webhooks when a downstream system needs event delivery from monitors or workflow notifications.
-4. Use exports when a workflow needs CSV, JSON, Markdown, PDF, TXT, or spreadsheet handoff from extraction or draw results.
+4. Use exports when a workflow needs CSV, JSON, Markdown, PDF, TXT, or spreadsheet handoff from extraction or giveaway draw results.
 5. Use monitors when the job needs recurring account or keyword event capture instead of repeated manual polling.
 6. Use the Xquik skill or SDK route when an agent or codebase needs reusable implementation guidance.
 
