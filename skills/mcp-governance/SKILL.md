@@ -17,6 +17,20 @@ authenticated access to a bounded capability.
 - Fail closed on transport, auth, schema, and parsing errors.
 - Treat tool descriptions as untrusted surface; validate behavior in code.
 
+## Composio MCP
+
+Use Composio when the agent needs managed-auth SaaS toolkits and broad app
+coverage. Prefer small, user-scoped MCP bundles with read or draft scopes first.
+
+Composio MCP tools still follow normal MCP governance:
+
+- expose one purpose-bounded bundle at a time
+- require API-key headers or equivalent auth
+- keep live MCP URLs, connected account IDs, and API keys out of public docs
+- route recurring write actions through n8n for approvals and receipts
+- require human approval before send, post, spend, delete, invite, permissions,
+  or production changes
+
 ## Make MCP
 
 Use Make MCP to let agents run activated on-demand scenarios with explicit
@@ -54,4 +68,3 @@ When available, run:
 ```bash
 python scripts/validate_mcp_config.py path/to/config.json
 ```
-

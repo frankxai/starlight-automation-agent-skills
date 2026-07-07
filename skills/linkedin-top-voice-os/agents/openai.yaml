@@ -1,0 +1,8 @@
+interface:
+  display_name: "LinkedIn Top Voice OS"
+  short_description: "Build expert LinkedIn systems with gates."
+  brand_color: "#0F766E"
+  default_prompt: "Use $linkedin-top-voice-os to design a daily LinkedIn content system with safe publishing gates."
+
+policy:
+  allow_implicit_invocation: true

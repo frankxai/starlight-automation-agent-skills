@@ -19,7 +19,8 @@ Human approval is required for irreversible or externally visible action.
 | --- | --- | --- |
 | GitHub, Vercel, Gmail, Calendar, Slack operations | Native connector | Connector is missing a required action |
 | Recurring reasoning, review, triage, reports | Codex automation | Needs low-latency event handling |
-| Agent calls a bounded external tool | MCP | The task is pure scheduling or no-code SaaS glue |
+| Agent needs managed-auth SaaS actions across many apps | Composio | Native connector already safely covers the action |
+| Agent calls a bounded external tool or workflow | MCP | The task is pure scheduling or no-code SaaS glue |
 | Fast SaaS glue and form-to-CRM flows | Make.com | The workflow is code-heavy or private-by-default |
 | Durable workflow logic, branching, templates | n8n | A nontechnical team needs visual low-code ownership |
 | Cross-repo or multi-agent execution | Starlight swarm | Single workflow engine can own the job |
@@ -40,6 +41,16 @@ MCP exposes typed tools to agents. Treat it as a boundary layer:
 - fail closed on auth, schema, transport, and confidence errors
 - keep destructive tools behind a human gate
 
+## Composio Rule
+
+Composio is the managed app-access gateway for agents. Use it when an agent
+needs authenticated SaaS tools across office, social, sales, creator, or ops
+apps and native connectors are insufficient.
+
+Keep Composio bundles narrow and draft-first. Move recurring, approval-heavy, or
+business-critical actions into n8n so the workflow has retries, state, and run
+receipts.
+
 ## Workflow Engine Rule
 
 Make.com is for speed and SaaS integration. n8n is for durable technical
@@ -54,4 +65,3 @@ evidence, or a handoff packet. One coordinator owns synthesis and risk decisions
 
 Doctrine and generic templates can be public. Live workflows, secrets, private
 memory, customer data, and business pipeline details stay private.
-

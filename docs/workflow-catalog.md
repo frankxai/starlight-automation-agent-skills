@@ -24,8 +24,10 @@ is sensitive, branchy, or should become a reusable template.
 
 ## 5. Content Pipeline
 
-Codex and local swarm agents draft, review, and queue content. Publishing remains
-human gated.
+Codex and local swarm agents draft, review, and queue content. Composio can
+draft assets or scheduling packets across tools such as Canva, YouTube,
+LinkedIn, Typefully, Notion, or Sheets. n8n owns approval routing and Postiz
+owns scheduling/publishing. Publishing remains human gated.
 
 ## 6. Public Template Release
 
@@ -41,3 +43,9 @@ Public exports use curated summaries only.
 
 Payments tooling verifies caps and records audit entries. No agent moves money.
 
+## 9. LinkedIn Authority Daily Packet
+
+Codex automation researches current signals and drafts three high-quality posts
+per day. Composio can create draft assets across apps when configured. Make.com
+or n8n owns approval routing and receipts. Postiz, Typefully, Taplio, or native
+platform tools may schedule only after human approval.

@@ -14,6 +14,7 @@ Automation is not one tool. It is a stack of ownership layers:
 | Native connectors | GitHub, Vercel, Gmail, Calendar, Slack, Drive, Notion, Linear | Usually included with the host/app | Connector coverage gaps |
 | Codex automations | Recurring reasoning, repo health, triage, briefs, reports | Plan/usage budget plus local machine availability | Too many noisy reports |
 | Hermes and retrieval agents | Search, recall, synthesis, source gathering, context recovery | Model/tool calls and index freshness | Stale or over-broad context |
+| Composio | Managed-auth SaaS tool access for agents | Tool-call usage and connected-account scope | Over-broad write access |
 | MCP | Typed agent access to tools and data | Build/maintenance/security overhead | Over-exposed tools |
 | Make.com | Fast SaaS glue and nontechnical workflow ownership | Credit usage per module/action and plan tier | Credit sprawl and opaque complexity |
 | n8n | Technical branching, private workflows, templates, self-hosting | Cloud executions or self-hosting ops | Workflow maintenance burden |
@@ -78,6 +79,20 @@ Use MCP when an agent needs a typed tool or resource:
 MCP is not the automation engine. It is the boundary that lets agents call tools
 safely. Keep tools small, explicit, logged, and revocable.
 
+### Use Composio for agent SaaS tool access
+
+Use Composio when an agent needs authenticated SaaS actions across several apps
+and the native connector surface is not enough:
+
+- create or update draft assets across docs, design, and social tools
+- research and draft CRM or outreach updates
+- connect office apps for agent workflows without exposing raw credentials
+- build a narrow MCP toolkit bundle for a specific agent profile
+
+Composio is not the durable workflow engine. If the action recurs, requires
+retries, approval state, dedupe, or audit receipts, route the process through
+n8n and let Composio handle only the app action.
+
 ### Use Make.com for fast SaaS glue
 
 Use Make when speed and visual SaaS integration matter:
@@ -130,6 +145,7 @@ Think in total cost, not subscription price.
 | Connector | Usually platform/account plan | Missing actions, rate limits | Prefer read/draft before writes |
 | Codex automation | Codex/ChatGPT plan and usage | Noisy recurring tasks, local app dependency | Archive no-finding tasks; review cadence monthly |
 | Hermes/retrieval | Model/tool calls | Stale indexes, broad search | Require source receipts and scoped queries |
+| Composio | Tool-call usage and connected accounts | Write-scope sprawl, premium-tool costs | Small bundles, draft-first scopes, weekly usage review |
 | MCP | Hosting/build time | Security surface, schema drift | Small tools, read/run scopes, explicit owners |
 | Make.com | Credits and plan | Credit sprawl, hard-to-review visual logic | Credit budget, scenario owner, monthly run review |
 | n8n Cloud | Monthly executions | Workflow sprawl | Error workflows, templates, execution budget |
@@ -144,7 +160,7 @@ Before creating automation, write down:
 1. Outcome: what changes in the world?
 2. Trigger: human, schedule, event, webhook, or agent request?
 3. Risk class: read-only, draft, internal write, external write, destructive, financial.
-4. Tool owner: connector, Codex, Hermes, MCP, Make, n8n, swarm, script.
+4. Tool owner: connector, Codex, Hermes, Composio, MCP, Make, n8n, swarm, script.
 5. Data contract: input fields, output fields, and where state lives.
 6. Approval gate: what requires Frank or another human?
 7. Observability: where logs, costs, failures, and run receipts show up.
@@ -162,6 +178,7 @@ Every automation needs one visible receipt surface:
 - Codex inbox item for Codex automations
 - GitHub Actions log for CI/script jobs
 - MCP server logs for tool calls
+- Composio usage or connected-account audit surface for managed SaaS actions
 - Starlight queue report for multi-agent jobs
 - SIS memory/provenance entry for durable decisions
 
@@ -188,7 +205,7 @@ Do not trust an automation because it ran once. Trust it because it has evidence
 | Regression test | Scripts, MCP configs, workflow JSON | Known fixture still passes |
 | Rubric eval | Agent summaries, briefs, research | Output meets stated criteria |
 | Red-team check | Public release, destructive tools | Abuse path is blocked or gated |
-| Cost eval | Make/n8n/Codex recurring jobs | Cost stays under budget |
+| Cost eval | Composio/Make/n8n/Codex recurring jobs | Cost stays under budget |
 | Handoff eval | Swarm jobs | Fresh agent can continue from report |
 
 Public releases need at least one representative output and one boundary review.
@@ -198,7 +215,7 @@ Public releases need at least one representative output and one boundary review.
 ### Weekly
 
 - Review failed or noisy automations.
-- Check Make/n8n run usage and obvious cost spikes.
+- Check Composio, Make, and n8n run usage and obvious cost spikes.
 - Archive no-finding Codex automations that are just noise.
 - Confirm no public-facing automation bypasses human approval.
 
@@ -213,7 +230,7 @@ Public releases need at least one representative output and one boundary review.
 
 ### Quarterly
 
-- Re-evaluate Make vs n8n vs Codex ownership.
+- Re-evaluate Composio vs Make vs n8n vs Codex ownership.
 - Decide what should become an MCP tool.
 - Decide what should become a public template.
 - Run a publication-safety scan on public automation repos.
@@ -226,8 +243,8 @@ Start small and promote only after evidence:
 1. Manual checklist.
 2. Codex-assisted repeated task.
 3. Codex automation or connector workflow.
-4. Make/n8n automation.
-5. MCP tool boundary.
+4. Composio or MCP tool boundary for bounded agent app access.
+5. Make/n8n automation.
 6. Starlight queue for multi-agent scaling.
 7. Public template or productized workflow.
 
@@ -248,8 +265,9 @@ When an agent touches automation, it should:
 ## Current Official References
 
 - Make pricing: https://www.make.com/en/pricing
+- Composio pricing: https://composio.dev/pricing
+- Composio MCP: https://docs.composio.dev/docs/single-toolkit-mcp
 - n8n pricing: https://n8n.io/pricing/
 - Codex pricing: https://developers.openai.com/codex/pricing
 - Codex automations: https://developers.openai.com/codex/app/automations
 - MCP introduction: https://modelcontextprotocol.io/docs/getting-started/intro
-

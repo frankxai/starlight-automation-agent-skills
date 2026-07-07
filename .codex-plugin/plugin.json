@@ -15,13 +15,15 @@
     "n8n",
     "make",
     "codex",
+    "linkedin",
+    "content",
     "starlight"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Starlight Automation Agent Skills",
-    "shortDescription": "Route automations across Make, n8n, MCP, and Codex.",
-    "longDescription": "A public-safe skill bundle that teaches agents when to use SaaS connectors, Codex automations, MCP tools, Make scenarios, n8n workflows, and Starlight swarm queues.",
+    "shortDescription": "Route automations and content workflow gates.",
+    "longDescription": "A public-safe skill bundle that teaches agents when to use SaaS connectors, Codex automations, Composio, MCP tools, Make scenarios, n8n workflows, content approval systems, and Starlight swarm queues.",
     "developerName": "FrankX / Starlight",
     "category": "Productivity",
     "capabilities": [
@@ -31,7 +33,8 @@
     "defaultPrompt": [
       "Choose the best automation tool for this workflow.",
       "Design a safe MCP boundary for this agent task.",
-      "Turn this recurring task into a Codex automation."
+      "Turn this recurring task into a Codex automation.",
+      "Design a LinkedIn authority workflow with draft-only publishing gates."
     ],
     "brandColor": "#2563EB"
   }

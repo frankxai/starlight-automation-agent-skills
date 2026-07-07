@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "composio-publishing-draft": {
+      "url": "https://backend.composio.dev/v3/mcp/${COMPOSIO_MCP_SERVER_ID}?user_id=${COMPOSIO_DEFAULT_USER_ID}",
+      "headers": {
+        "x-api-key": "${COMPOSIO_API_KEY}"
+      },
+      "description": "Draft-only Composio MCP bundle for preparing social and video publishing packets.",
+      "starlightPolicy": {
+        "defaultScope": "draft-only",
+        "exampleToolkits": ["canva", "youtube", "linkedin", "typefully", "notion"],
+        "humanGate": ["schedule", "publish", "delete", "ad-spend"],
+        "durableWorkflowOwner": "n8n",
+        "publishOwner": "Postiz"
+      }
+    }
+  }
+}
