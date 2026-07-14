@@ -1,0 +1,866 @@
+diff --git a/.codex-plugin/plugin.json b/.codex-plugin/plugin.json
+index b267c35..a3c9f48 100644
+--- a/.codex-plugin/plugin.json
++++ b/.codex-plugin/plugin.json
+@@ -15,13 +15,15 @@
+     "n8n",
+     "make",
+     "codex",
++    "linkedin",
++    "content",
+     "starlight"
+   ],
+   "skills": "./skills/",
+   "interface": {
+     "displayName": "Starlight Automation Agent Skills",
+-    "shortDescription": "Route automations across Make, n8n, MCP, and Codex.",
+-    "longDescription": "A public-safe skill bundle that teaches agents when to use SaaS connectors, Codex automations, MCP tools, Make scenarios, n8n workflows, and Starlight swarm queues.",
++    "shortDescription": "Route automations and content workflow gates.",
++    "longDescription": "A public-safe skill bundle that teaches agents when to use SaaS connectors, Codex automations, Composio, MCP tools, Make scenarios, n8n workflows, content approval systems, and Starlight swarm queues.",
+     "developerName": "FrankX / Starlight",
+     "category": "Productivity",
+     "capabilities": [
+@@ -31,7 +33,8 @@
+     "defaultPrompt": [
+       "Choose the best automation tool for this workflow.",
+       "Design a safe MCP boundary for this agent task.",
+-      "Turn this recurring task into a Codex automation."
++      "Turn this recurring task into a Codex automation.",
++      "Design a LinkedIn authority workflow with draft-only publishing gates."
+     ],
+     "brandColor": "#2563EB"
+   }
+diff --git a/README.md b/README.md
+index d296977..932287a 100644
+--- a/README.md
++++ b/README.md
+@@ -1,8 +1,8 @@
+ # Starlight Automation Agent Skills
+ 
+ Codex skills and public-safe doctrine for choosing the right automation layer:
+-SaaS connectors, Codex automations, MCP tools, Make.com scenarios, n8n workflows,
+-and Starlight swarm queues.
++SaaS connectors, Codex automations, Composio/MCP tool gateways, Make.com
++scenarios, n8n workflows, and Starlight swarm queues.
+ 
+ This repo is intentionally not a vault of live workflows. It contains reusable
+ agent instructions, validation scripts, and sanitized operating doctrine that can
+@@ -15,6 +15,7 @@ be shared publicly.
+ - `n8n-operations` - n8n workflow design, import/export checks, and templates.
+ - `mcp-governance` - MCP tool/server boundaries, auth, scopes, and fail-closed rules.
+ - `codex-automation-operator` - recurring Codex task design and review gates.
++- `linkedin-top-voice-os` - high-quality LinkedIn authority systems, content packets, and publishing gates.
+ - `starlight-queen-queue` - bounded Starlight swarm queue jobs and handoffs.
+ 
+ ## Operating Guide
+@@ -30,10 +31,15 @@ Use the narrowest reliable tool:
+ 
+ 1. Native connector when a connector exists.
+ 2. Codex automation when the job needs recurring reasoning and review.
+-3. MCP when an agent needs typed access to a bounded tool.
+-4. Make.com when the workflow is SaaS glue and speed matters.
+-5. n8n when the workflow is technical, private, branchy, or template-worthy.
+-6. Starlight swarm when work spans repos, agents, evaluation, or durable handoff.
++3. Composio when an agent needs managed-auth SaaS tools across many apps.
++4. MCP when an agent needs typed access to a bounded tool or selected workflow.
++5. Make.com when the workflow is SaaS glue and speed matters.
++6. n8n when the workflow is technical, private, branchy, or template-worthy.
++7. Starlight swarm when work spans repos, agents, evaluation, or durable handoff.
++
++For social authority systems, use `linkedin-top-voice-os` with the router: Codex
++owns recurring judgment and draft packets, Composio can create draft assets in
++apps, Make.com or n8n can hold approvals, and publishing remains human gated.
+ 
+ ## Public/Private Boundary
+ 
+@@ -48,6 +54,7 @@ Public here:
+ Private elsewhere:
+ 
+ - live Make or n8n scenarios
++- live Composio MCP URLs or connected account IDs
+ - webhook URLs
+ - credentials and env values
+ - customer or inbox data
+@@ -60,6 +67,7 @@ Private elsewhere:
+ python scripts/validate_skill_bundle.py .
+ python scripts/scan_public_safety.py .
+ python scripts/validate_mcp_config.py examples/mcp/minimal.mcp.json
++python scripts/validate_mcp_config.py examples/mcp/composio-publishing-draft.mcp.json
+ python scripts/validate_n8n_workflow.py examples/n8n/minimal-workflow.json
+ ```
+ 
+diff --git a/agentic-influencer-os/research-reports/2026-06-30-agent-repo-skill-radar/report.md b/agentic-influencer-os/research-reports/2026-06-30-agent-repo-skill-radar/report.md
+new file mode 100644
+index 0000000..081a958
+--- /dev/null
++++ b/agentic-influencer-os/research-reports/2026-06-30-agent-repo-skill-radar/report.md
+@@ -0,0 +1,109 @@
++# FrankX Agent Repo Skill Radar
++
++Date: 2026-06-30  
++Status: Draft only; human approval required before installing third-party skills/repos, using tokens, publishing, scheduling, spending, or changing external services.  
++Safety class: public-safe research notes, pending human review.
++
++## Local Inputs Checked
++
++- `agentic-influencer-os/data/agent-repo-watchlist.seed.json`: not present in this repo.
++- `docs/github-repo-and-skill-extraction-os.md`: not present in this repo.
++- `docs/frankx-top-voice-team-os.md`: not present in this repo.
++- `docs/media-radar-and-rights-os.md`: not present in this repo.
++- Relevant local substitutes used: `skills/linkedin-top-voice-os/SKILL.md`, `skills/linkedin-top-voice-os/references/content-system.md`, `skills/mcp-governance/SKILL.md`, and `skills/n8n-operations/SKILL.md`.
++
++## Source Radar
++
++Primary repositories and docs checked on 2026-06-30:
++
++- [anthropics/skills](https://github.com/anthropics/skills): public repository for Agent Skills; 156,760 stars; pushed 2026-06-27.
++- [VoltAgent/awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills): curated 1000+ cross-agent skill collection; 26,882 stars; MIT; pushed 2026-06-24.
++- [github/awesome-copilot](https://github.com/github/awesome-copilot): community instructions, agents, skills, and Copilot configuration; 35,939 stars; MIT; pushed 2026-06-30.
++- [OpenAI Agents SDK docs](https://openai.github.io/openai-agents-python/) and [openai/openai-agents-python](https://github.com/openai/openai-agents-python): lightweight multi-agent workflow framework; 27,518 stars; MIT; pushed 2026-06-30.
++- [LangGraph docs](https://docs.langchain.com/oss/python/langgraph/overview) and [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph): durable agent graphs; 36,088 stars; MIT; pushed 2026-06-30.
++- [CrewAI docs](https://docs.crewai.com/) and [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI): crews and flows for multi-agent orchestration; 54,599 stars; MIT; pushed 2026-06-30.
++- [Mastra docs](https://mastra.ai/docs) and [mastra-ai/mastra](https://github.com/mastra-ai/mastra): TypeScript agent framework; 25,596 stars; license marked NOASSERTION by GitHub API; pushed 2026-06-30.
++- [Agno docs](https://docs.agno.com/) and [agno-agi/agno](https://github.com/agno-agi/agno): agent platform framework; 40,910 stars; Apache-2.0; pushed 2026-06-30.
++- [lastmile-ai/mcp-agent](https://github.com/lastmile-ai/mcp-agent): MCP-native agent workflow patterns; 8,395 stars; Apache-2.0; pushed 2026-01-25.
++- [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers): MCP server catalog; 87,869 stars; license marked NOASSERTION by GitHub API; pushed 2026-06-29.
++- [n8n docs](https://docs.n8n.io/) and [n8n-io/n8n](https://github.com/n8n-io/n8n): workflow automation with AI/MCP patterns; 194,596 stars; license marked NOASSERTION by GitHub API; pushed 2026-06-30.
++- [postiz-app](https://github.com/gitroomhq/postiz-app): open-source social scheduling; 32,496 stars; AGPL-3.0; pushed 2026-06-30.
++
++## Ranked Repo Shortlist
++
++| Rank | Source | Why it matters for FrankX/Starlight | What to extract | Risk notes |
++| --- | --- | --- | --- | --- |
++| 1 | n8n | Best fit for durable approval workflows, receipts, retries, and private automation paths. | Human-gated content ops workflow templates, error routes, MCP exposure checklist. | Fair-code/commercial constraints; never publish credential blocks or live webhook URLs. |
++| 2 | anthropics/skills | Highest-signal public skill packaging reference and market proof that skills are becoming reusable agent IP. | Skill bundle structure, instruction density, examples/assets/scripts separation. | No blind installation; inspect license/README per skill before reuse. |
++| 3 | modelcontextprotocol/servers | Central MCP server catalog for agent tool boundaries. | Server evaluation rubric, safe MCP allowlist process, public-safe examples. | Supply-chain and over-permission risk; expose narrow tools only. |
++| 4 | github/awesome-copilot | Strong repo for public examples of instructions, agents, skills, and editor-native workflows. | Cross-editor instruction taxonomy and "agent config as repo asset" examples. | Community content varies in quality; quote sparingly and transform into original doctrine. |
++| 5 | OpenAI Agents SDK | Strong official reference for lightweight multi-agent primitives, handoffs, guardrails, tracing, and sessions. | Small canonical FrankX patterns: intake triage, research handoff, approval guardrail. | Avoid claiming framework superiority; position as one implementation lane. |
++| 6 | LangGraph | Best source for durable graph thinking, persistence, human-in-the-loop, and stateful workflows. | Diagrams for long-running agent systems and interruption/resume patterns. | More engineering overhead; content should explain when graphs are worth it. |
++| 7 | CrewAI | High awareness and accessible crew/flow language for business audiences. | Creator-friendly explanation of role-based agents versus workflow state machines. | Agent-role framing can become theatrical; anchor in measurable workflow outcomes. |
++| 8 | Agno | Practical agent platform framing with teams, memory, tools, and evaluation surfaces. | Agent platform checklist and "from script to agent platform" carousel. | Rapid-moving repo with many issues; verify docs before recommending implementation. |
++| 9 | Mastra | Strong TypeScript lane for app-native agent workflows. | TypeScript-first agent app architecture and workflow examples. | License reported as NOASSERTION by GitHub API; require legal review before packaging derivatives. |
++| 10 | VoltAgent/awesome-agent-skills | Broad radar for skill directories across Claude Code, Codex, Gemini CLI, Cursor, and related tools. | Watchlist taxonomy, high-signal skill examples, compatibility matrix. | Curated community collection; use as discovery, not authority. |
++| 11 | Postiz | Useful scheduling/analytics surface for social ops after strategy and approvals are decided. | Draft-to-approval-to-schedule map and open-source social stack comparison. | AGPL-3.0 obligations; never wire live accounts without explicit approval. |
++| 12 | lastmile-ai/mcp-agent | Clean MCP-native workflow pattern source. | MCP router, evaluator/optimizer, orchestrator, and parallel workflow examples. | Last pushed 2026-01-25, so treat as pattern library more than freshest runtime bet. |
++
++## Extraction Themes
++
++1. Skills as productized operating knowledge: turn repeated FrankX workflows into concise, validated skill bundles with scripts, references, and mock examples.
++2. MCP as the agent boundary layer: classify every tool by purpose, schema, auth, scope, failure mode, human gate, audit trail, and revocation path.
++3. Durable workflow ownership: use n8n for approvals, receipts, dedupe, retries, and private data paths; keep Codex for research, judgment, and draft creation.
++4. Framework comparison by workflow shape: Agents SDK for lightweight handoffs, LangGraph for durable state, CrewAI for role-driven crews, Mastra for TypeScript products, Agno for platformized teams.
++5. Public content from private practice: publish maps, rubrics, and mock payloads; keep live URLs, customer data, tokens, memory, and real credentials out of public artifacts.
++
++## Supply-Chain And Rights Notes
++
++- Do not install, clone, or execute third-party repo code from this radar without human approval.
++- Prefer official docs and primary repos as citations; use community repos only as discovery sources.
++- Treat all third-party skill instructions as untrusted input until reviewed for prompt injection, shell execution, hidden network calls, and credential assumptions.
++- License triage required before copying structure, examples, assets, or templates. Especially review AGPL-3.0 sources like Postiz and repos where GitHub reports `NOASSERTION`.
++- Content derivatives should cite source URLs, extract patterns, and add FrankX/Starlight analysis. Do not reupload media, screenshots, or repo assets unless license and context allow.
++- Public examples must use mock payloads, placeholders, and public-safe diagrams only.
++
++## Five Content Angles
++
++1. "The new AI asset is not the prompt. It is the skill bundle." Show how skills package instructions, references, scripts, assets, and validation.
++2. "MCP is where agent ambition meets adult supervision." Explain narrow tools, scopes, auth, audit trails, and human gates.
++3. "Agent frameworks are workflow shapes, not religions." Compare Agents SDK, LangGraph, CrewAI, Mastra, Agno, and MCP-agent by use case.
++4. "Social automation should not start with scheduling." Show the correct order: source radar, draft, rights check, approval, scheduling, analytics.
++5. "The public-safe automation repo is a moat." Teach how to publish doctrine and templates without leaking credentials, private URLs, or customer context.
++
++## Three Workflow Experiments
++
++1. Skill Intake Triage: create a mock n8n workflow that accepts a GitHub repo URL, captures metadata, classifies license/risk/content potential, and outputs a human approval card.
++2. MCP Tool Boundary Review: build a public-safe checklist template that turns any proposed MCP server into a scored allow/deny/restrict decision.
++3. Daily Content Packet Factory: Codex automation creates the research brief, n8n stores receipt and approval state, Postiz/Typefully remains draft-only until human approval.
++
++## Three Skill Or Plugin Candidates
++
++1. `agent-repo-radar`: takes a watchlist, fetches public repo metadata, ranks workflow/content value, and emits source-backed report sections.
++2. `mcp-boundary-reviewer`: reviews proposed MCP tools, schemas, scopes, auth, failure modes, and public-safe docs.
++3. `social-approval-packet`: converts research into LinkedIn/YouTube/carousel briefs with source links, rights notes, risk labels, and approval status.
++
++## Three Media And Carousel Briefs
++
++1. Carousel: "From Repo To Skill"
++   - Slides: signal, license check, pattern extraction, skill skeleton, validation, approval, public-safe publish.
++   - Visual: clean pipeline with source chips and red human-gate markers.
++   - Risk: low; use original diagrams and source links only.
++
++2. Carousel: "The Agent Framework Decision Map"
++   - Slides: lightweight handoff, durable graph, role-based crew, TypeScript app, platform team, MCP-native workflow.
++   - Visual: matrix by workflow duration, state, tool risk, and business owner.
++   - Risk: medium; claims must stay comparative and cite official docs.
++
++3. YouTube/Short: "Why Your Social Automation Stack Should Have Brakes"
++   - Beat: start with the failure mode, map Codex/n8n/Postiz responsibilities, show human gate, close with the approval checklist.
++   - Visual: screen-record style mock workflow, no live accounts.
++   - Risk: low if mock data only.
++
++## Next Daily Content Packet Action
++
++Create tomorrow's draft packet around angle 2: "MCP is where agent ambition meets adult supervision." Include one LinkedIn founder POV post, one workflow teardown carousel, and one short video script using only official MCP, n8n, and OpenAI Agents SDK source links.
++
++## Approval Status
++
++Draft complete. No third-party installs, clones, untrusted code execution, external service changes, publishing, scheduling, token usage, or spend occurred.
+diff --git a/docs/automation-operating-guide.md b/docs/automation-operating-guide.md
+index a491e80..29b87e3 100644
+--- a/docs/automation-operating-guide.md
++++ b/docs/automation-operating-guide.md
+@@ -14,6 +14,7 @@ Automation is not one tool. It is a stack of ownership layers:
+ | Native connectors | GitHub, Vercel, Gmail, Calendar, Slack, Drive, Notion, Linear | Usually included with the host/app | Connector coverage gaps |
+ | Codex automations | Recurring reasoning, repo health, triage, briefs, reports | Plan/usage budget plus local machine availability | Too many noisy reports |
+ | Hermes and retrieval agents | Search, recall, synthesis, source gathering, context recovery | Model/tool calls and index freshness | Stale or over-broad context |
++| Composio | Managed-auth SaaS tool access for agents | Tool-call usage and connected-account scope | Over-broad write access |
+ | MCP | Typed agent access to tools and data | Build/maintenance/security overhead | Over-exposed tools |
+ | Make.com | Fast SaaS glue and nontechnical workflow ownership | Credit usage per module/action and plan tier | Credit sprawl and opaque complexity |
+ | n8n | Technical branching, private workflows, templates, self-hosting | Cloud executions or self-hosting ops | Workflow maintenance burden |
+@@ -78,6 +79,20 @@ Use MCP when an agent needs a typed tool or resource:
+ MCP is not the automation engine. It is the boundary that lets agents call tools
+ safely. Keep tools small, explicit, logged, and revocable.
+ 
++### Use Composio for agent SaaS tool access
++
++Use Composio when an agent needs authenticated SaaS actions across several apps
++and the native connector surface is not enough:
++
++- create or update draft assets across docs, design, and social tools
++- research and draft CRM or outreach updates
++- connect office apps for agent workflows without exposing raw credentials
++- build a narrow MCP toolkit bundle for a specific agent profile
++
++Composio is not the durable workflow engine. If the action recurs, requires
++retries, approval state, dedupe, or audit receipts, route the process through
++n8n and let Composio handle only the app action.
++
+ ### Use Make.com for fast SaaS glue
+ 
+ Use Make when speed and visual SaaS integration matter:
+@@ -130,6 +145,7 @@ Think in total cost, not subscription price.
+ | Connector | Usually platform/account plan | Missing actions, rate limits | Prefer read/draft before writes |
+ | Codex automation | Codex/ChatGPT plan and usage | Noisy recurring tasks, local app dependency | Archive no-finding tasks; review cadence monthly |
+ | Hermes/retrieval | Model/tool calls | Stale indexes, broad search | Require source receipts and scoped queries |
++| Composio | Tool-call usage and connected accounts | Write-scope sprawl, premium-tool costs | Small bundles, draft-first scopes, weekly usage review |
+ | MCP | Hosting/build time | Security surface, schema drift | Small tools, read/run scopes, explicit owners |
+ | Make.com | Credits and plan | Credit sprawl, hard-to-review visual logic | Credit budget, scenario owner, monthly run review |
+ | n8n Cloud | Monthly executions | Workflow sprawl | Error workflows, templates, execution budget |
+@@ -144,7 +160,7 @@ Before creating automation, write down:
+ 1. Outcome: what changes in the world?
+ 2. Trigger: human, schedule, event, webhook, or agent request?
+ 3. Risk class: read-only, draft, internal write, external write, destructive, financial.
+-4. Tool owner: connector, Codex, Hermes, MCP, Make, n8n, swarm, script.
++4. Tool owner: connector, Codex, Hermes, Composio, MCP, Make, n8n, swarm, script.
+ 5. Data contract: input fields, output fields, and where state lives.
+ 6. Approval gate: what requires Frank or another human?
+ 7. Observability: where logs, costs, failures, and run receipts show up.
+@@ -162,6 +178,7 @@ Every automation needs one visible receipt surface:
+ - Codex inbox item for Codex automations
+ - GitHub Actions log for CI/script jobs
+ - MCP server logs for tool calls
++- Composio usage or connected-account audit surface for managed SaaS actions
+ - Starlight queue report for multi-agent jobs
+ - SIS memory/provenance entry for durable decisions
+ 
+@@ -188,7 +205,7 @@ Do not trust an automation because it ran once. Trust it because it has evidence
+ | Regression test | Scripts, MCP configs, workflow JSON | Known fixture still passes |
+ | Rubric eval | Agent summaries, briefs, research | Output meets stated criteria |
+ | Red-team check | Public release, destructive tools | Abuse path is blocked or gated |
+-| Cost eval | Make/n8n/Codex recurring jobs | Cost stays under budget |
++| Cost eval | Composio/Make/n8n/Codex recurring jobs | Cost stays under budget |
+ | Handoff eval | Swarm jobs | Fresh agent can continue from report |
+ 
+ Public releases need at least one representative output and one boundary review.
+@@ -198,7 +215,7 @@ Public releases need at least one representative output and one boundary review.
+ ### Weekly
+ 
+ - Review failed or noisy automations.
+-- Check Make/n8n run usage and obvious cost spikes.
++- Check Composio, Make, and n8n run usage and obvious cost spikes.
+ - Archive no-finding Codex automations that are just noise.
+ - Confirm no public-facing automation bypasses human approval.
+ 
+@@ -213,7 +230,7 @@ Public releases need at least one representative output and one boundary review.
+ 
+ ### Quarterly
+ 
+-- Re-evaluate Make vs n8n vs Codex ownership.
++- Re-evaluate Composio vs Make vs n8n vs Codex ownership.
+ - Decide what should become an MCP tool.
+ - Decide what should become a public template.
+ - Run a publication-safety scan on public automation repos.
+@@ -226,8 +243,8 @@ Start small and promote only after evidence:
+ 1. Manual checklist.
+ 2. Codex-assisted repeated task.
+ 3. Codex automation or connector workflow.
+-4. Make/n8n automation.
+-5. MCP tool boundary.
++4. Composio or MCP tool boundary for bounded agent app access.
++5. Make/n8n automation.
+ 6. Starlight queue for multi-agent scaling.
+ 7. Public template or productized workflow.
+ 
+@@ -248,8 +265,9 @@ When an agent touches automation, it should:
+ ## Current Official References
+ 
+ - Make pricing: https://www.make.com/en/pricing
++- Composio pricing: https://composio.dev/pricing
++- Composio MCP: https://docs.composio.dev/docs/single-toolkit-mcp
+ - n8n pricing: https://n8n.io/pricing/
+ - Codex pricing: https://developers.openai.com/codex/pricing
+ - Codex automations: https://developers.openai.com/codex/app/automations
+ - MCP introduction: https://modelcontextprotocol.io/docs/getting-started/intro
+-
+diff --git a/docs/automation-tool-doctrine.md b/docs/automation-tool-doctrine.md
+index ccc72b0..e0067ca 100644
+--- a/docs/automation-tool-doctrine.md
++++ b/docs/automation-tool-doctrine.md
+@@ -19,7 +19,8 @@ Human approval is required for irreversible or externally visible action.
+ | --- | --- | --- |
+ | GitHub, Vercel, Gmail, Calendar, Slack operations | Native connector | Connector is missing a required action |
+ | Recurring reasoning, review, triage, reports | Codex automation | Needs low-latency event handling |
+-| Agent calls a bounded external tool | MCP | The task is pure scheduling or no-code SaaS glue |
++| Agent needs managed-auth SaaS actions across many apps | Composio | Native connector already safely covers the action |
++| Agent calls a bounded external tool or workflow | MCP | The task is pure scheduling or no-code SaaS glue |
+ | Fast SaaS glue and form-to-CRM flows | Make.com | The workflow is code-heavy or private-by-default |
+ | Durable workflow logic, branching, templates | n8n | A nontechnical team needs visual low-code ownership |
+ | Cross-repo or multi-agent execution | Starlight swarm | Single workflow engine can own the job |
+@@ -40,6 +41,16 @@ MCP exposes typed tools to agents. Treat it as a boundary layer:
+ - fail closed on auth, schema, transport, and confidence errors
+ - keep destructive tools behind a human gate
+ 
++## Composio Rule
++
++Composio is the managed app-access gateway for agents. Use it when an agent
++needs authenticated SaaS tools across office, social, sales, creator, or ops
++apps and native connectors are insufficient.
++
++Keep Composio bundles narrow and draft-first. Move recurring, approval-heavy, or
++business-critical actions into n8n so the workflow has retries, state, and run
++receipts.
++
+ ## Workflow Engine Rule
+ 
+ Make.com is for speed and SaaS integration. n8n is for durable technical
+@@ -54,4 +65,3 @@ evidence, or a handoff packet. One coordinator owns synthesis and risk decisions
+ 
+ Doctrine and generic templates can be public. Live workflows, secrets, private
+ memory, customer data, and business pipeline details stay private.
+-
+diff --git a/docs/workflow-catalog.md b/docs/workflow-catalog.md
+index 7841f3b..19eb04b 100644
+--- a/docs/workflow-catalog.md
++++ b/docs/workflow-catalog.md
+@@ -24,8 +24,10 @@ is sensitive, branchy, or should become a reusable template.
+ 
+ ## 5. Content Pipeline
+ 
+-Codex and local swarm agents draft, review, and queue content. Publishing remains
+-human gated.
++Codex and local swarm agents draft, review, and queue content. Composio can
++draft assets or scheduling packets across tools such as Canva, YouTube,
++LinkedIn, Typefully, Notion, or Sheets. n8n owns approval routing and Postiz
++owns scheduling/publishing. Publishing remains human gated.
+ 
+ ## 6. Public Template Release
+ 
+@@ -41,3 +43,9 @@ Public exports use curated summaries only.
+ 
+ Payments tooling verifies caps and records audit entries. No agent moves money.
+ 
++## 9. LinkedIn Authority Daily Packet
++
++Codex automation researches current signals and drafts three high-quality posts
++per day. Composio can create draft assets across apps when configured. Make.com
++or n8n owns approval routing and receipts. Postiz, Typefully, Taplio, or native
++platform tools may schedule only after human approval.
+diff --git a/examples/mcp/composio-publishing-draft.mcp.json b/examples/mcp/composio-publishing-draft.mcp.json
+new file mode 100644
+index 0000000..f0ffc44
+--- /dev/null
++++ b/examples/mcp/composio-publishing-draft.mcp.json
+@@ -0,0 +1,18 @@
++{
++  "mcpServers": {
++    "composio-publishing-draft": {
++      "url": "https://backend.composio.dev/v3/mcp/${COMPOSIO_MCP_SERVER_ID}?user_id=${COMPOSIO_DEFAULT_USER_ID}",
++      "headers": {
++        "x-api-key": "${COMPOSIO_API_KEY}"
++      },
++      "description": "Draft-only Composio MCP bundle for preparing social and video publishing packets.",
++      "starlightPolicy": {
++        "defaultScope": "draft-only",
++        "exampleToolkits": ["canva", "youtube", "linkedin", "typefully", "notion"],
++        "humanGate": ["schedule", "publish", "delete", "ad-spend"],
++        "durableWorkflowOwner": "n8n",
++        "publishOwner": "Postiz"
++      }
++    }
++  }
++}
+diff --git a/skills/automation-tool-router/SKILL.md b/skills/automation-tool-router/SKILL.md
+index 2909ae2..2e9929c 100644
+--- a/skills/automation-tool-router/SKILL.md
++++ b/skills/automation-tool-router/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: automation-tool-router
+-description: Choose the best automation layer across native connectors, Codex automations, MCP tools, Make.com scenarios, n8n workflows, and Starlight swarm queues. Use when a user asks which tool to use, how to automate a workflow, whether Make or n8n is better, how MCP should fit, how future agents should remember tool choices, or how to route recurring work safely.
++description: Choose the best automation layer across native connectors, Codex automations, Composio or MCP tool gateways, Make.com scenarios, n8n workflows, and Starlight swarm queues. Use when a user asks which tool to use, how to automate a workflow, whether Composio, Make, or n8n is better, how MCP should fit, how future agents should remember tool choices, or how to route recurring work safely.
+ ---
+ 
+ # Automation Tool Router
+@@ -12,10 +12,22 @@ Return a concrete owner, not a vague stack.
+ 
+ 1. Use the native connector when one exists for the target system.
+ 2. Use Codex automation for recurring reasoning, review, repo, inbox, or briefing work.
+-3. Use MCP when an agent needs a typed, bounded tool or resource.
+-4. Use Make.com for fast SaaS glue, forms, CRM updates, and simple approval chains.
+-5. Use n8n for branchy technical workflows, private data flows, reusable templates, and self-hostable automation.
+-6. Use a Starlight queue for cross-repo, multi-agent, eval-heavy, or handoff-heavy work.
++3. Use Composio when an agent needs managed-auth SaaS tools across many apps.
++4. Use MCP when an agent needs a typed, bounded tool, resource, or selected workflow.
++5. Use Make.com for fast SaaS glue, forms, CRM updates, and simple approval chains.
++6. Use n8n for branchy technical workflows, private data flows, reusable templates, and self-hostable automation.
++7. Use a Starlight queue for cross-repo, multi-agent, eval-heavy, or handoff-heavy work.
++
++## Composio Rule
++
++Use Composio as the agent SaaS gateway when an assistant needs authenticated app
++actions across tools such as docs, calendars, social platforms, CRM, publishing,
++or design apps and no native connector already covers the job.
++
++Do not use Composio as the durable workflow engine. Route recurring,
++failure-prone, approval-heavy, or business-critical actions through n8n and keep
++human gates before send, post, spend, delete, invite, permission changes, or
++production promotion.
+ 
+ ## Safety Gates
+ 
+@@ -40,6 +52,7 @@ Return:
+ 
+ ## Reference Routing
+ 
++- For Composio or gateway scopes, use `mcp-governance`.
+ - For Make.com scenario design, use `make-com-operations`.
+ - For n8n workflow design or exported workflow review, use `n8n-operations`.
+ - For MCP scopes, tool schemas, and server boundaries, use `mcp-governance`.
+@@ -50,4 +63,3 @@ Return:
+ 
+ For public artifacts, run `scripts/scan_public_safety.py` from the source repo
+ when available. For installable bundles, run `scripts/validate_skill_bundle.py`.
+-
+diff --git a/skills/linkedin-top-voice-os/SKILL.md b/skills/linkedin-top-voice-os/SKILL.md
+new file mode 100644
+index 0000000..7739551
+--- /dev/null
++++ b/skills/linkedin-top-voice-os/SKILL.md
+@@ -0,0 +1,95 @@
++---
++name: linkedin-top-voice-os
++description: Design and operate high-quality LinkedIn thought-leadership systems for founders, experts, and company brands. Use when a user asks for LinkedIn Top Voice strategy, daily posting systems, content calendars, viral pattern research, Composio, Make.com, n8n, or Codex social automation workflows, media asset sourcing, post drafts, or safe publishing gates.
++---
++
++# LinkedIn Top Voice OS
++
++## Overview
++
++Use this skill to build a credible LinkedIn authority engine that favors original expertise, useful operating detail, strong design, and professional trust over engagement hacks. It can design strategy, source radar, daily team packets, approval workflows, asset sourcing, carousel/video/GIF briefs, and automation routing.
++
++This skill can help optimize for LinkedIn Top Voice-style credibility, but never promise the badge. Treat Top Voice as an outcome of consistent expertise, originality, platform safety, and public usefulness.
++
++## Operating Rule
++
++Create original work from current signals. Do not copy, rewrite, or reupload another creator's content as the user's. If a post, video, GIF, or image inspired the angle, cite or credit it, extract the pattern, and make a new artifact with the user's own analysis.
++
++Human approval is required before posting, scheduling, sending DMs, spending money, changing permissions, or publishing on any public channel.
++
++## Daily Workflow
++
++1. Gather current signals from primary or credible sources, including official release notes, product docs, official social/video posts, and reputable creator commentary.
++2. Review the user's recent drafts, approvals, objections, and performance notes when available.
++3. Produce a Top Voice Team Brief:
++   - source radar summary
++   - one X, YouTube, LinkedIn, or creator reference worth studying
++   - one video/reference link
++   - one safe GIF or original motion-loop concept
++   - one carousel or infographic brief
++   - one static card concept
++   - design direction and visual QA notes
++4. Produce two or three post candidates:
++   - founder POV: a crisp thesis with original judgment
++   - tactical teardown: a useful workflow, stack map, or implementation lesson
++   - strategic signal: a market, tool, taste, or operations observation
++5. For each candidate include hook, full draft, alternate hook, source links, claim-risk label, visual concept, carousel/video variant, CTA, and edit notes.
++6. Add a legal asset scout: stock/source links, suggested generated-media prompts, and any required attribution or license notes.
++7. Route the packet through approval. Draft-only unless the user explicitly approves public action.
++
++## Automation Routing
++
++Use the automation stack deliberately:
++
++- Codex automations: recurring research, judgment, strategy, draft packets, review notes.
++- Composio: managed-auth app actions when the agent needs to create drafts across Notion, Google Docs, Canva, Typefully, LinkedIn, YouTube, or similar tools.
++- Make.com: fast front-office glue such as intake forms, notifications, CRM updates, or simple approvals.
++- n8n: durable approval workflows, retries, run receipts, dedupe, private data handling, and reusable templates.
++- Postiz, Typefully, Taplio, or native platform tools: optional scheduling and analytics surfaces. Do not make them the strategy brain.
++
++Use Composio for draft creation and tool execution, then let n8n or Make own approval state. Keep publishing human-gated.
++
++## Output Contract
++
++When designing or running the system, return:
++
++- content pillar or campaign
++- audience and intent
++- three draft posts or a dated calendar
++- evidence and source links
++- visual/media plan
++- legal and platform-risk notes
++- tool owner and fallback tool
++- approval gate
++- storage location for state and receipts
++- next production action
++
++## Quality Bar
++
++Score important drafts before approval:
++
++- specificity: concrete operating detail instead of vague AI optimism
++- originality: a Frank/user point of view, not recycled consensus
++- utility: reader can make a better decision or action
++- credibility: sourced claims, clear caveats, no fake certainty
++- taste: professional, sharp, generous, and not spammy
++- conversion: natural bridge to the user's product, offer, or reputation
++
++If a draft fails specificity or originality, rewrite before polishing.
++
++## Resources
++
++Read `references/content-system.md` when building a full strategy, source radar, daily calendar, asset sourcing plan, design brief, or performance review.
++
++Use `scripts/create_daily_packet.py` to create a dated packet skeleton before filling it with researched content.
++
++**Examples from other skills:**
++- Brand styling: PowerPoint template files (.pptx), logo files
++- Frontend builder: HTML/React boilerplate project directories
++- Typography: Font files (.ttf, .woff2)
++
++**Appropriate for:** Templates, boilerplate code, document templates, images, icons, fonts, or any files meant to be copied or used in the final output.
++
++---
++
++**Not every skill requires all three types of resources.**
+diff --git a/skills/linkedin-top-voice-os/agents/openai.yaml b/skills/linkedin-top-voice-os/agents/openai.yaml
+new file mode 100644
+index 0000000..38f95ad
+--- /dev/null
++++ b/skills/linkedin-top-voice-os/agents/openai.yaml
+@@ -0,0 +1,8 @@
++interface:
++  display_name: "LinkedIn Top Voice OS"
++  short_description: "Build expert LinkedIn systems with gates."
++  brand_color: "#0F766E"
++  default_prompt: "Use $linkedin-top-voice-os to design a daily LinkedIn content system with safe publishing gates."
++
++policy:
++  allow_implicit_invocation: true
+diff --git a/skills/linkedin-top-voice-os/references/content-system.md b/skills/linkedin-top-voice-os/references/content-system.md
+new file mode 100644
+index 0000000..f8d5cdd
+--- /dev/null
++++ b/skills/linkedin-top-voice-os/references/content-system.md
+@@ -0,0 +1,149 @@
++# LinkedIn Content System
++
++Use this reference when the task asks for strategy, calendars, daily posting systems, media sourcing, or performance review.
++
++## Pillars
++
++1. Agentic operations: how agents, humans, repos, and workflows coordinate.
++2. Tool stack economics: when Codex, Composio, Make, n8n, MCP, Postiz, Taplio, or native tools win.
++3. Workflow teardowns: before/after diagrams, prompts, approvals, and failure modes.
++4. Taste and execution: what makes AI work feel excellent instead of generic.
++5. Founder field notes: what was tried, what failed, what changed, and what is now true.
++6. Product bridges: frankx.ai offers, audits, templates, workshops, and production systems.
++7. Safety and governance: human gates, source receipts, platform rules, and private-data boundaries.
++
++## Daily Rhythm
++
++- Morning signal: one strong thesis from a current market, product, or founder-ops signal.
++- Midday system: one useful teardown, checklist, stack map, or implementation lesson.
++- Evening field note: one human, reflective, or taste-led post that builds trust.
++
++Avoid three posts that sound like the same idea in different clothes. Each should earn a different reader behavior: think, save, or reply.
++
++## Team Packet
++
++Create the kind of packet a serious creator team would hand a top public voice:
++
++1. Source radar with official URLs and dates.
++2. Social reference from X, YouTube, LinkedIn, or credible creator commentary.
++3. Video/reference link to study or cite.
++4. GIF or original motion-loop concept.
++5. Carousel or infographic brief.
++6. Static card concept.
++7. Two or three post drafts.
++8. Design direction and visual QA notes.
++9. Claim, platform, and license risk labels.
++10. Approval route and production next action.
++
++Do not treat social references as assets to steal. Use them to learn the pattern, cite when referenced, and create original analysis.
++
++## Topic Lanes
++
++For FrankX-style AI operations education, use a weighted portfolio:
++
++- Hermes/Starlight applied agent ops as the owned authority core.
++- OpenAI Codex/Codex app as the strongest public builder education lane.
++- Claude Code, Projects, and coworking patterns for comparison and operator workflow lessons.
++- Notion AI/workspace agents when the story connects to knowledge work, meetings, docs, team memory, or business ops.
++
++Cover all lanes over a week, not all lanes every day.
++
++## Source Radar
++
++Primary sources first:
++
++- OpenAI Codex changelog: https://developers.openai.com/codex/changelog
++- OpenAI release notes: https://openai.com/products/release-notes/
++- Codex app docs: https://developers.openai.com/codex/app
++- Codex automations docs: https://developers.openai.com/codex/app/automations
++- Anthropic Claude app release notes: https://docs.anthropic.com/en/release-notes/claude-apps
++- Claude Code release notes: https://docs.anthropic.com/en/release-notes/claude-code
++- Claude Code overview: https://docs.anthropic.com/en/docs/claude-code/overview
++- Notion releases: https://www.notion.com/releases
++- Notion AI product: https://www.notion.com/product/ai
++- Notion API changelog: https://developers.notion.com/page/changelog
++
++## Post Formats
++
++- Decision memo: "We chose X over Y because..."
++- Stack map: "The clean architecture is..."
++- Teardown: "Here is how this workflow should actually run..."
++- Taste critique: "The output is not bad because it is AI. It is bad because..."
++- Field note: "I used to believe X. Building the system changed my mind."
++- Source-aware commentary: "This announcement matters less for the feature and more for..."
++- Offer bridge: "If your team has this failure mode, the fix is..."
++
++## Viral Pattern Rule
++
++Use viral posts, videos, and GIFs as research material only:
++
++- capture the pattern
++- cite or credit the source when referenced
++- change the domain, analysis, examples, and artifact
++- add original expertise
++- never imply the source content is yours
++- never reupload copyrighted media without permission or a compatible license
++
++Classify each asset as native reshare, licensed use, permission request,
++original remake, or reject before production.
++
++## Asset Sourcing
++
++Prefer:
++
++- original diagrams, screenshots, and deterministic carousels
++- generated visuals that pass a visual quality gate
++- licensed stock photos or videos
++- official product screenshots when the license and context allow
++- embedded links to source material rather than copied media
++
++Every asset candidate needs source URL, license note, intended use, and risk label.
++
++For media-radar tasks, also include source, platform, signal, velocity or
++qualitative reason, topic lane, usage route, approval status, and a FrankX
++remake brief.
++
++## Design Style
++
++Aim for crisp, sleek, confident education:
++
++- source chips and dated receipts
++- annotated screenshots where allowed
++- stack maps and workflow diagrams
++- command-center panels
++- before/after operating systems
++- deterministic carousel text layouts
++- original short motion loops
++
++Avoid generic robot imagery, unreadable generated text, overbusy slides, and copied viral formats.
++
++## Scorecard
++
++Score each candidate out of 100:
++
++- specificity: 25
++- originality: 20
++- utility: 20
++- credibility: 15
++- taste: 10
++- conversion bridge: 10
++
++Drafts under 80 need revision. Drafts under 70 should be rebuilt from the thesis.
++
++## Approval Packet
++
++Include:
++
++- title
++- audience
++- intent
++- full post
++- alternate hook
++- visual plan
++- source links
++- claim-risk label
++- platform-risk label
++- CTA
++- suggested publish window
++- approval status
++- next production action
+diff --git a/skills/linkedin-top-voice-os/scripts/create_daily_packet.py b/skills/linkedin-top-voice-os/scripts/create_daily_packet.py
+new file mode 100644
+index 0000000..871ebc9
+--- /dev/null
++++ b/skills/linkedin-top-voice-os/scripts/create_daily_packet.py
+@@ -0,0 +1,108 @@
++#!/usr/bin/env python3
++"""Create a dated LinkedIn daily packet skeleton."""
++
++from __future__ import annotations
++
++import argparse
++from datetime import date
++from pathlib import Path
++import re
++
++
++def slugify(value: str) -> str:
++    slug = re.sub(r"[^a-zA-Z0-9]+", "-", value.strip().lower())
++    return re.sub(r"-+", "-", slug).strip("-") or "linkedin-daily-packet"
++
++
++def packet_markdown(brand: str, run_date: str) -> str:
++    return f"""# {brand} LinkedIn Daily Packet - {run_date}
++
++## Context
++
++- Audience:
++- Current signal:
++- Sources:
++- Prior learning:
++
++## Candidate 1 - Founder POV
++
++- Hook:
++- Alternate hook:
++- Full draft:
++- Visual concept:
++- Carousel or video variant:
++- CTA:
++- Claim-risk:
++- Platform-risk:
++- Source links:
++- Editing notes:
++
++## Candidate 2 - Tactical Teardown
++
++- Hook:
++- Alternate hook:
++- Full draft:
++- Visual concept:
++- Carousel or video variant:
++- CTA:
++- Claim-risk:
++- Platform-risk:
++- Source links:
++- Editing notes:
++
++## Candidate 3 - Strategic Signal
++
++- Hook:
++- Alternate hook:
++- Full draft:
++- Visual concept:
++- Carousel or video variant:
++- CTA:
++- Claim-risk:
++- Platform-risk:
++- Source links:
++- Editing notes:
++
++## Legal Asset Scout
++
++| Asset | Source URL | License note | Intended use | Risk |
++| --- | --- | --- | --- | --- |
++| | | | | |
++
++## Tool Routing
++
++- Codex:
++- Composio:
++- Make.com:
++- n8n:
++- Scheduler or analytics:
++
++## Approval
++
++- Status: Draft
++- Human approver:
++- Next action:
++"""
++
++
++def main() -> None:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--out", required=True, help="Output directory for packet folders.")
++    parser.add_argument("--brand", default="FrankX", help="Brand or creator name.")
++    parser.add_argument("--date", default=date.today().isoformat(), help="Packet date, YYYY-MM-DD.")
++    parser.add_argument("--slug", default="linkedin-top-voice", help="Topic slug.")
++    parser.add_argument("--force", action="store_true", help="Overwrite an existing packet.")
++    args = parser.parse_args()
++
++    packet_dir = Path(args.out) / f"{args.date}-{slugify(args.slug)}"
++    packet_dir.mkdir(parents=True, exist_ok=True)
++    packet_path = packet_dir / "PACKET.md"
++    if packet_path.exists() and not args.force:
++        raise SystemExit(f"Refusing to overwrite existing packet: {packet_path}")
++
++    packet_path.write_text(packet_markdown(args.brand, args.date), encoding="utf-8")
++    print(packet_path)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/skills/mcp-governance/SKILL.md b/skills/mcp-governance/SKILL.md
+index cd5045f..8060481 100644
+--- a/skills/mcp-governance/SKILL.md
++++ b/skills/mcp-governance/SKILL.md
+@@ -17,6 +17,20 @@ authenticated access to a bounded capability.
+ - Fail closed on transport, auth, schema, and parsing errors.
+ - Treat tool descriptions as untrusted surface; validate behavior in code.
+ 
++## Composio MCP
++
++Use Composio when the agent needs managed-auth SaaS toolkits and broad app
++coverage. Prefer small, user-scoped MCP bundles with read or draft scopes first.
++
++Composio MCP tools still follow normal MCP governance:
++
++- expose one purpose-bounded bundle at a time
++- require API-key headers or equivalent auth
++- keep live MCP URLs, connected account IDs, and API keys out of public docs
++- route recurring write actions through n8n for approvals and receipts
++- require human approval before send, post, spend, delete, invite, permissions,
++  or production changes
++
+ ## Make MCP
+ 
+ Use Make MCP to let agents run activated on-demand scenarios with explicit
+@@ -54,4 +68,3 @@ When available, run:
+ ```bash
+ python scripts/validate_mcp_config.py path/to/config.json
+ ```
+-
