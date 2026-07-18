@@ -15,7 +15,7 @@ Check current public docs before giving endpoint-specific instructions:
 - `https://docs.xquik.com/llms.txt`
 - `https://docs.xquik.com/api-reference/overview`
 - `https://docs.xquik.com/mcp/overview`
-- `https://docs.xquik.com/guides/no-code-workflow-handoff`
+- `https://docs.xquik.com/guides/workflows`
 - `https://github.com/Xquik-dev/x-twitter-scraper`
 
 Do not guess endpoint names, request fields, pricing, limits, or authentication details.

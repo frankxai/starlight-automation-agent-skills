@@ -28,7 +28,14 @@ def main() -> int:
             if key not in node:
                 print(f"Node missing required key: {key}")
                 return 1
-        ids.add(node["id"])
+        node_id = node["id"]
+        if not isinstance(node_id, str) or not node_id.strip():
+            print("Every node id must be a non-empty string.")
+            return 1
+        if node_id in ids:
+            print(f"Duplicate node id: {node_id}")
+            return 1
+        ids.add(node_id)
         if "credentials" in node:
             print(f"Node {node.get('name')}: remove credentials before public sharing.")
             return 1
@@ -41,4 +48,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
