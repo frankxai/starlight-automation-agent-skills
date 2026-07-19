@@ -65,9 +65,10 @@ Return:
 
 ## Safety
 
-- Do not print, store, or commit API keys, bearer tokens, webhook secrets, cookies, customer data, private memory, or live webhook URLs.
+- Do not print or commit API keys, bearer tokens, webhook secrets, cookies, customer data, private memory, or live webhook URLs.
+- Store webhook secrets in a secret manager. Verify `X-Xquik-Signature` against the raw request body before processing each webhook.
 - Use placeholders for public examples.
-- Do not disclose private provider names, source details, cost mechanics, or internal routing.
+- Share documented public pricing and usage limits when needed for approval. Do not disclose private provider names, source details, non-public cost mechanics, or internal routing.
 - Do not help evade platform rules, rate limits, access controls, or account restrictions.
-- Require human approval before posting, deleting, sending DMs, changing accounts, spending, or enabling production monitors and webhooks.
+- Require human approval before posting, deleting, sending DMs, changing accounts, spending, creating or reactivating metered monitors, or enabling production monitors and webhooks.
 - Keep unsupported operations on the documented fallback route rather than inventing a hidden capability.

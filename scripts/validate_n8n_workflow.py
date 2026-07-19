@@ -10,6 +10,8 @@ from pathlib import Path
 
 
 def main() -> int:
+    """Validate the workflow selected on the command line."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument("workflow")
     args = parser.parse_args()
