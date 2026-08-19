@@ -20,4 +20,5 @@ jobs:
         run: python scripts/validate_mcp_config.py examples/mcp/minimal.mcp.json
       - name: Validate example n8n workflow
         run: python scripts/validate_n8n_workflow.py examples/n8n/minimal-workflow.json
-
+      - name: Test validators
+        run: python -m unittest discover -s tests
