@@ -36,7 +36,7 @@ def iter_files(root: Path):
     for path in root.rglob("*"):
         if path.is_dir():
             continue
-        if path.name == "scan_public_safety.py":
+        if path.name in {"scan_public_safety.py", "test_scan_public_safety.py", "redact_secrets.py"}:
             continue
         if any(part in {".git", "node_modules", ".venv", "__pycache__"} for part in path.parts):
             continue

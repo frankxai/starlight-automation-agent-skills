@@ -33,6 +33,11 @@ class TestScanPublicSafety(unittest.TestCase):
         expected = ["test.txt:1: bearer_token"]
         self.assertEqual(scan_text(text, "test.txt"), expected)
 
+    def test_private_webhook(self):
+        text = "Sending to https://example.test/webhook/secret now."
+        expected = ["test.txt:1: private_webhook"]
+        self.assertEqual(scan_text(text, "test.txt"), expected)
+
     def test_multiple_findings(self):
         text = "Path: /home/jules\nAPI_KEY=1234567890abcdef"
         expected = ["test.txt:1: local_unix_path", "test.txt:2: api_key_label"]
