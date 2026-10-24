@@ -65,3 +65,7 @@ python scripts/validate_n8n_workflow.py examples/n8n/minimal-workflow.json
 ```
 
 Restart Codex after installing or updating skills.
+
+## Music production reference
+
+Public portable craft: [Agentic Music Producer OS](https://github.com/frankxai/agentic-music-producer-os/tree/18dc9bee02001befb3a2a3bd7747b78f798dff13). Its [fundamentals](https://github.com/frankxai/agentic-music-producer-os/blob/18dc9bee02001befb3a2a3bd7747b78f798dff13/docs/MUSIC-FUNDAMENTALS.md), [provider register](https://github.com/frankxai/agentic-music-producer-os/blob/18dc9bee02001befb3a2a3bd7747b78f798dff13/docs/PROVIDER-CAPABILITIES.md) and [factory contract](https://github.com/frankxai/agentic-music-producer-os/blob/18dc9bee02001befb3a2a3bd7747b78f798dff13/docs/MUSIC-FACTORY-CONTRACT.md) separate creative work, authenticated execution, durable jobs, audio evidence and release. These references do not install a provider account or deploy a workflow.
