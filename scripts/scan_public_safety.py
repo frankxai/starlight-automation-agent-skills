@@ -10,11 +10,11 @@ from pathlib import Path
 
 
 PATTERNS = {
-    "local_windows_path": re.compile(r"[A-Za-z]:\\\\Users\\\\", re.IGNORECASE),
-    "local_unix_path": re.compile(r"/Users/[^\\s]+|/home/[^\\s]+"),
-    "api_key_label": re.compile(r"(?i)(api[_-]?key|secret|token|password)\\s*[:=]\\s*['\\\"]?[^\\s'\\\"]{8,}"),
-    "bearer_token": re.compile(r"(?i)bearer\\s+[a-z0-9._\\-]{16,}"),
-    "private_webhook": re.compile(r"https://[^\\s)\\]\"]*(webhook|hook)[^\\s)\\]\"]*", re.IGNORECASE),
+    "local_windows_path": re.compile(r"[A-Za-z]:\\Users\\", re.IGNORECASE),
+    "local_unix_path": re.compile(r"/Users/[^\s]+|/home/[^\s]+"),
+    "api_key_label": re.compile(r"(?i)(api[_-]?key|secret|token|password)\s*[:=]\s*['\"]?[^\s'\"]{8,}"),
+    "bearer_token": re.compile(r"(?i)bearer\s+[a-z0-9._\-]{16,}"),
+    "private_webhook": re.compile(r"https://[^\s)\]\"]*(webhook|hook)[^\s)\]\"]*", re.IGNORECASE),
 }
 
 TEXT_EXTENSIONS = {
@@ -44,6 +44,16 @@ def iter_files(root: Path):
             yield path
 
 
+def scan_text(text: str, path_str: str) -> list[str]:
+    """Scan a single block of text for sensitive markers."""
+    findings = []
+    for name, pattern in PATTERNS.items():
+        for match in pattern.finditer(text):
+            line = text.count("\n", 0, match.start()) + 1
+            findings.append(f"{path_str}:{line}: {name}")
+    return findings
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("path", nargs="?", default=".")
@@ -56,11 +66,8 @@ def main() -> int:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             text = path.read_text(encoding="utf-8", errors="ignore")
-        for name, pattern in PATTERNS.items():
-            for match in pattern.finditer(text):
-                rel = path.relative_to(root)
-                line = text.count("\n", 0, match.start()) + 1
-                findings.append(f"{rel}:{line}: {name}")
+        rel = str(path.relative_to(root))
+        findings.extend(scan_text(text, rel))
 
     if findings:
         print("Sensitive markers found:")
