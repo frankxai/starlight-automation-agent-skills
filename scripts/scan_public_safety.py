@@ -10,11 +10,11 @@ from pathlib import Path
 
 
 PATTERNS = {
-    "local_windows_path": re.compile(r"[A-Za-z]:\\Users\\", re.IGNORECASE),
-    "local_unix_path": re.compile(r"/Users/[^\s]+|/home/[^\s]+"),
-    "api_key_label": re.compile(r"(?i)(api[_-]?key|secret|token|password)\s*[:=]\s*['\"]?[^\s'\"]{8,}"),
-    "bearer_token": re.compile(r"(?i)bearer\s+[a-z0-9._\-]{16,}"),
-    "private_webhook": re.compile(r"https://[^\s)\]\"]*(webhook|hook)[^\s)\]\"]*", re.IGNORECASE),
+    "local_windows_path": re.compile(r"[A-Za-z]:\\\\Users\\\\", re.IGNORECASE),
+    "local_unix_path": re.compile(r"/Users/[^\\s]+|/home/[^\\s]+"),
+    "api_key_label": re.compile(r"(?i)(api[_-]?key|secret|token|password)\\s*[:=]\\s*['\\\"]?[^\\s'\\\"]{8,}"),
+    "bearer_token": re.compile(r"(?i)bearer\\s+[a-z0-9._\\-]{16,}"),
+    "private_webhook": re.compile(r"https://[^\\s)\\]\"]*(webhook|hook)[^\\s)\\]\"]*", re.IGNORECASE),
 }
 
 TEXT_EXTENSIONS = {
@@ -36,7 +36,13 @@ def iter_files(root: Path):
     for path in root.rglob("*"):
         if path.is_dir():
             continue
-        if path.name in {"scan_public_safety.py", "test_scan_public_safety.py", "redact_secrets.py"}:
+        if path.name == "scan_public_safety.py":
+            continue
+        # Skip mock scripts and tests containing synthetic secrets
+        rel_parts = path.relative_to(root).parts
+        if len(rel_parts) == 2 and rel_parts[0] == "tests" and rel_parts[1] == "test_scan_public_safety.py":
+            continue
+        if len(rel_parts) == 2 and rel_parts[0] == "scripts" and rel_parts[1] == "redact_secrets.py":
             continue
         if any(part in {".git", "node_modules", ".venv", "__pycache__"} for part in path.parts):
             continue
