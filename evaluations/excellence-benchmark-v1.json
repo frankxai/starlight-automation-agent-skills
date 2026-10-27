@@ -1,0 +1,91 @@
+{
+  "version": "1.0.0",
+  "purpose": "Initial task scenarios; prompts and judgments must be grounded in authorized data, never claimed already executed.",
+  "passPolicy": {
+    "criticalFailuresAllowed": 0,
+    "minimumWeightedScore": 90,
+    "minimumDimensionScore": 8
+  },
+  "dimensions": [
+    {
+      "id": "reasoning",
+      "weight": 15
+    },
+    {
+      "id": "originality",
+      "weight": 15
+    },
+    {
+      "id": "craft",
+      "weight": 20
+    },
+    {
+      "id": "correctness",
+      "weight": 20
+    },
+    {
+      "id": "completeness",
+      "weight": 15
+    },
+    {
+      "id": "evidence",
+      "weight": 15
+    }
+  ],
+  "tasks": [
+    {
+      "id": "research-1",
+      "brief": "Compare two agent runtime architectures using current primary sources",
+      "hardGates": [
+        "source provenance",
+        "alternatives",
+        "explicit uncertainty"
+      ]
+    },
+    {
+      "id": "code-1",
+      "brief": "Implement a bounded typed API route and tests in a disposable fixture repo",
+      "hardGates": [
+        "tests green",
+        "no leaked secrets",
+        "authorization checks"
+      ]
+    },
+    {
+      "id": "ux-1",
+      "brief": "Critique and improve a supplied product landing page",
+      "hardGates": [
+        "visual hierarchy",
+        "mobile access",
+        "genuine product claims"
+      ]
+    },
+    {
+      "id": "editorial-1",
+      "brief": "Rewrite a generic AI article with concrete thesis and memorable narrative",
+      "hardGates": [
+        "specificity",
+        "source check",
+        "no invented facts"
+      ]
+    },
+    {
+      "id": "music-1",
+      "brief": "Create original repeatable club hook and production brief",
+      "hardGates": [
+        "originality",
+        "repeatability",
+        "vocal phrasing"
+      ]
+    },
+    {
+      "id": "growth-1",
+      "brief": "Design a testable offer and landing-page conversion experiment",
+      "hardGates": [
+        "audience fit",
+        "truthful claims",
+        "measurement plan"
+      ]
+    }
+  ]
+}
