@@ -17,4 +17,21 @@ Avoid hollow hype, generic patterns, false progress, unaudited facts and pseudo-
 - Reviews are independent where feasible.
 - Record decision, artifact URL or path, exact validation, outcome and unresolved risks.
 
+## Starlight lab material review
+
+For a lab material workbench, record the candidate foundation revision and the
+product revision separately. Give the reviewer three unlabeled captures with
+the same geometry, light and scale. Ask them to identify porcelain, obsidian
+and glass from opacity, reflection width and edge thickness. Record ambiguity
+as a defect and repeat the comparison after repair.
+[Owned material candidate](https://github.com/Starlight-Intelligence/starlight-design-intelligence/blob/eed60eff204574583fdfd6beb8a20a2d464d9b3b/brand-packs/sis/foundations/README.md)
+
+Have the reviewer change material and depth using the keyboard, interrupt a
+replay, inspect the stable reduced-motion state and check small text on the
+worst permitted backdrop. A failed control, illegible reading plane, altered
+identity or invented activity blocks the corresponding release claim. Report
+which of the source, Figma specimen, browser preview and production deployment
+they actually inspected, with each revision and the observed outcome.
+[Material acceptance gate](https://github.com/Starlight-Intelligence/starlight-design-intelligence/blob/eed60eff204574583fdfd6beb8a20a2d464d9b3b/evals/starlight-material-foundations.md)
+
 See [ChatGPT entrypoint and routing](../../docs/chatgpt-excellence-entrypoint.md).
