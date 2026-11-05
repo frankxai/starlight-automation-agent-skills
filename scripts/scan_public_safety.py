@@ -38,10 +38,26 @@ def iter_files(root: Path):
             continue
         if path.name == "scan_public_safety.py":
             continue
+        # Skip mock scripts and tests containing synthetic secrets
+        rel_parts = path.relative_to(root).parts
+        if len(rel_parts) == 2 and rel_parts[0] == "tests" and rel_parts[1] == "test_scan_public_safety.py":
+            continue
+        if len(rel_parts) == 2 and rel_parts[0] == "scripts" and rel_parts[1] == "redact_secrets.py":
+            continue
         if any(part in {".git", "node_modules", ".venv", "__pycache__"} for part in path.parts):
             continue
         if path.suffix.lower() in TEXT_EXTENSIONS:
             yield path
+
+
+def scan_text(text: str, path_str: str) -> list[str]:
+    """Scan a single block of text for sensitive markers."""
+    findings = []
+    for name, pattern in PATTERNS.items():
+        for match in pattern.finditer(text):
+            line = text.count("\n", 0, match.start()) + 1
+            findings.append(f"{path_str}:{line}: {name}")
+    return findings
 
 
 def main() -> int:
@@ -56,11 +72,8 @@ def main() -> int:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             text = path.read_text(encoding="utf-8", errors="ignore")
-        for name, pattern in PATTERNS.items():
-            for match in pattern.finditer(text):
-                rel = path.relative_to(root)
-                line = text.count("\n", 0, match.start()) + 1
-                findings.append(f"{rel}:{line}: {name}")
+        rel = str(path.relative_to(root))
+        findings.extend(scan_text(text, rel))
 
     if findings:
         print("Sensitive markers found:")
